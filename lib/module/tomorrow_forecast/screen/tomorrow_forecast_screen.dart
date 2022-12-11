@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:qoin_test/common/model/weather_data_model.dart';
 import 'package:qoin_test/module/tomorrow_forecast/controller/tomorrow_forecast_controller.dart';
+import 'package:qoin_test/module/tomorrow_forecast/widget/daily_forecast.dart';
 import 'package:qoin_test/module/tomorrow_forecast/widget/tomorrow_weather.dart';
 
 class TomorrowForecastScreen extends StatelessWidget {
@@ -27,6 +29,21 @@ class TomorrowForecastScreen extends StatelessWidget {
                 windSpeed: controller.tomorrowWeather?.windSpeed ?? 0,
                 humidity: controller.tomorrowWeather?.humidity ?? 0,
                 rainChance: controller.tomorrowWeather?.pop ?? 0,
+              ),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.data.daily.length,
+                  itemBuilder: (context, index) => DailyForecast(
+                      day: DateFormat('EEE')
+                          .format(controller.data.daily[index].dt),
+                      iconUrl:
+                          'http://openweathermap.org/img/wn/${controller.data.daily[index].weather.first.icon}@2x.png',
+                      weather: controller.data.daily[index].weather.first.main,
+                      dayTemp: controller.data.daily[index].temp.day.round(),
+                      minTemp:
+                          controller.data.daily[index].temp.min?.round() ?? 0),
+                ),
               ),
             ],
           ),

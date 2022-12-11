@@ -8,9 +8,16 @@ class TomorrowForecastController extends GetxController
   DailyWeatherData? tomorrowWeather;
 
   TomorrowForecastController(this.data) {
+    //get tomorrow data
     final now = DateTime.now();
     tomorrowWeather = data.daily.firstWhereOrNull((element) =>
         element.dt.day == (now.day + 1) &&
+        element.dt.month == now.month &&
+        element.dt.year == now.year);
+
+    //remove today data
+    data.daily.removeWhere((element) =>
+        element.dt.day == now.day &&
         element.dt.month == now.month &&
         element.dt.year == now.year);
   }

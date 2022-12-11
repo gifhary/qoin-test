@@ -9,7 +9,7 @@ class DashboardCurrentWeather extends StatelessWidget {
   final double temperature;
   final String? weather;
   final String iconUrl;
-  final DateTime lastUpdate;
+  final DateTime? lastUpdate;
   final double rainChance;
   final int humdity;
   final double windSpeed;
@@ -19,7 +19,7 @@ class DashboardCurrentWeather extends StatelessWidget {
       required this.location,
       this.temperature = 0,
       this.weather,
-      required this.lastUpdate,
+      this.lastUpdate,
       this.rainChance = 0,
       this.humdity = 0,
       this.windSpeed = 0,
@@ -180,7 +180,11 @@ class DashboardCurrentWeather extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    LastUpdateTag(date: lastUpdate),
+                                    Visibility(
+                                        visible: lastUpdate != null,
+                                        child: LastUpdateTag(
+                                            date:
+                                                lastUpdate ?? DateTime.now())),
                                   ],
                                 ),
                                 Column(

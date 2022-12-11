@@ -100,10 +100,10 @@ class DailyWeatherData {
   Map<String, dynamic> toMap() {
     return {
       'dt': dt.millisecondsSinceEpoch,
-      'sunrise': sunrise.millisecondsSinceEpoch,
-      'sunset': sunset.millisecondsSinceEpoch,
-      'moonrise': moonrise.millisecondsSinceEpoch,
-      'moonset': moonset.millisecondsSinceEpoch,
+      'sunrise': (sunrise.millisecondsSinceEpoch / 1000).round(),
+      'sunset': (sunset.millisecondsSinceEpoch / 1000).round(),
+      'moonrise': (moonrise.millisecondsSinceEpoch / 1000).round(),
+      'moonset': (moonset.millisecondsSinceEpoch / 1000).round(),
       'moon_phase': moonPhase,
       'temp': temp.toMap(),
       'feels_like': feelsLike.toMap(),
@@ -270,9 +270,9 @@ class WeatherData {
 
   Map<String, dynamic> toMap() {
     return {
-      'dt': dt.millisecondsSinceEpoch,
-      'sunrise': sunrise?.millisecondsSinceEpoch,
-      'sunset': sunset?.millisecondsSinceEpoch,
+      'dt': (dt.millisecondsSinceEpoch / 1000).round(),
+      'sunrise': ((sunrise?.millisecondsSinceEpoch ?? 0) / 1000).round(),
+      'sunset': ((sunset?.millisecondsSinceEpoch ?? 0) / 1000).round(),
       'temp': temp,
       'feels_like': feelsLike,
       'pressure': pressure,

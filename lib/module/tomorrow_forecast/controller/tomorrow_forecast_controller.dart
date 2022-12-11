@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qoin_test/common/model/weather_data_model.dart';
 import 'package:qoin_test/module/tomorrow_forecast/data/repo/tomorrow_forecast_repo.dart';
@@ -14,6 +15,8 @@ class TomorrowForecastController extends GetxController
         element.dt.day == (now.day + 1) &&
         element.dt.month == now.month &&
         element.dt.year == now.year);
+
+    debugPrint(tomorrowWeather.toString());
 
     //remove today data
     data.daily.removeWhere((element) =>

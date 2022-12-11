@@ -23,7 +23,7 @@ class TomorrowForecastScreen extends StatelessWidget {
               TomorrowWeather(
                 iconUrl:
                     'http://openweathermap.org/img/wn/${controller.tomorrowWeather?.weather.first.icon}@2x.png',
-                weather: controller.tomorrowWeather!.weather.first.main,
+                weather: controller.tomorrowWeather?.weather.first.main ?? '',
                 dayTemp: controller.tomorrowWeather?.temp.day.round() ?? 0,
                 minTemp: controller.tomorrowWeather?.temp.min?.round() ?? 0,
                 windSpeed: controller.tomorrowWeather?.windSpeed ?? 0,

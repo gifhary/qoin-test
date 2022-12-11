@@ -99,7 +99,7 @@ class DailyWeatherData {
 
   Map<String, dynamic> toMap() {
     return {
-      'dt': dt.millisecondsSinceEpoch,
+      'dt': (dt.millisecondsSinceEpoch / 1000).round(),
       'sunrise': (sunrise.millisecondsSinceEpoch / 1000).round(),
       'sunset': (sunset.millisecondsSinceEpoch / 1000).round(),
       'moonrise': (moonrise.millisecondsSinceEpoch / 1000).round(),

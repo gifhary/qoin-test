@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class ApiResModel {
   final double lat;
   final double lon;
@@ -123,11 +125,11 @@ class DailyWeatherData {
 
   factory DailyWeatherData.fromMap(Map<String, dynamic> map) {
     return DailyWeatherData(
-      dt: DateTime.fromMillisecondsSinceEpoch(map['dt'] / 1000),
-      sunrise: DateTime.fromMillisecondsSinceEpoch(map['sunrise'] / 1000),
-      sunset: DateTime.fromMillisecondsSinceEpoch(map['sunset'] / 1000),
-      moonrise: DateTime.fromMillisecondsSinceEpoch(map['moonrise'] / 1000),
-      moonset: DateTime.fromMillisecondsSinceEpoch(map['moonset'] / 1000),
+      dt: DateTime.fromMillisecondsSinceEpoch(map['dt'] * 1000),
+      sunrise: DateTime.fromMillisecondsSinceEpoch(map['sunrise'] * 1000),
+      sunset: DateTime.fromMillisecondsSinceEpoch(map['sunset'] * 1000),
+      moonrise: DateTime.fromMillisecondsSinceEpoch(map['moonrise'] * 1000),
+      moonset: DateTime.fromMillisecondsSinceEpoch(map['moonset'] * 1000),
       moonPhase: map['moon_phase']?.toDouble() ?? 0.0,
       temp: Temp.fromMap(map['temp']),
       feelsLike: Temp.fromMap(map['feels_like']),
@@ -205,6 +207,32 @@ class Temp {
   }
 }
 
+class Rain {
+  final double h1;
+  Rain({
+    required this.h1,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      '1h': h1,
+    };
+  }
+
+  factory Rain.fromMap(Map<String, dynamic> map) {
+    return Rain(
+      h1: map['1h']?.toDouble() ?? 0.0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Rain.fromJson(String source) => Rain.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Rain(h1: $h1)';
+}
+
 class WeatherData {
   final DateTime dt;
   final DateTime? sunrise;
@@ -222,6 +250,7 @@ class WeatherData {
   final double? windGust;
   final List<Weather> weather;
   final double? pop;
+  final Rain? rain;
   WeatherData(
       {required this.dt,
       this.sunrise,
@@ -238,7 +267,8 @@ class WeatherData {
       required this.windDeg,
       required this.weather,
       this.windGust,
-      this.pop});
+      this.pop,
+      this.rain});
 
   Map<String, dynamic> toMap() {
     return {
@@ -258,18 +288,20 @@ class WeatherData {
       'wind_gust': windGust,
       'weather': weather.map((x) => x.toMap()).toList(),
       'pop': pop,
+      'rain': rain?.toMap()
     };
   }
 
   factory WeatherData.fromMap(Map<String, dynamic> map) {
     return WeatherData(
-      dt: DateTime.fromMillisecondsSinceEpoch(map['dt'] / 1000),
+      dt: DateTime.fromMillisecondsSinceEpoch(map['dt'] * 1000),
       sunrise: map['sunrise'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['sunrise'] / 1000)
+          ? DateTime.fromMillisecondsSinceEpoch(map['sunrise'] * 1000)
           : null,
       sunset: map['sunset'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['sunset'] / 1000)
+          ? DateTime.fromMillisecondsSinceEpoch(map['sunset'] * 1000)
           : null,
+      rain: map['rain'] != null ? Rain.fromMap(map['rain']) : null,
       temp: map['temp']?.toDouble() ?? 0.0,
       feelsLike: map['feels_like']?.toDouble() ?? 0.0,
       pressure: map['pressure']?.toInt() ?? 0,

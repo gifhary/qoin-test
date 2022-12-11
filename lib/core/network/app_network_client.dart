@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 class AppNetworkClient {
   static final Dio _dio = Dio()..options.connectTimeout = 10000;
 
-  static const String _baseurl = 'https://dlabs-test.irufano.com';
+  static const String _baseurl = 'https://api.openweathermap.org/';
 
   AppNetworkClient._();
 
@@ -25,29 +25,6 @@ class AppNetworkClient {
 
       debugPrint("CALLING GET ${res.requestOptions.path}");
       debugPrint("Query GET ${res.requestOptions.queryParameters}");
-
-      return res;
-    } on DioError catch (e) {
-      throw _getErrorMessage(e);
-    } catch (e) {
-      throw "Something Went Wrong, try again later";
-    }
-  }
-
-  static Future<Response> post({
-    Map<String, dynamic>? data,
-    String? url,
-    Map<String, dynamic>? customHeader,
-    required String path,
-    FormData? form,
-    // jsonMap for sending raw json to server
-    Map<String, dynamic>? jsonMap,
-  }) async {
-    try {
-      final res = await _dio.post(_baseurl + path,
-          data: form ?? jsonMap ?? FormData.fromMap(data!));
-
-      debugPrint("CALLING POST ${res.requestOptions.path}");
 
       return res;
     } on DioError catch (e) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HourlyWeather extends StatelessWidget {
-  final int temperature;
+  final double temperature;
   final String iconUrl;
   final DateTime time;
   final bool current;
@@ -61,12 +61,12 @@ class HourlyWeather extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '$temperature°',
+                  '${temperature.round()}°',
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  DateFormat('hh:mm').format(time),
+                  DateFormat('HH:mm').format(time),
                   style: TextStyle(
                     color: current ? Colors.white : const Color(0xFF687B92),
                   ),

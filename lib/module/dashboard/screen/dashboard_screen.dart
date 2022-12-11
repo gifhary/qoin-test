@@ -9,6 +9,8 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return GetBuilder<DashboardController>(
       init: DashboardController(),
       builder: (DashboardController controller) {
@@ -17,11 +19,20 @@ class DashboardScreen extends StatelessWidget {
           body: Column(
             children: [
               DashboardCurrentWeather(
-                iconUrl: 'http://openweathermap.org/img/wn/10d@2x.png',
+                loading: controller.loading,
+                iconUrl:
+                    'http://openweathermap.org/img/wn/${controller.apiRes?.current.weather.first.icon}@2x.png',
                 lastUpdate: DateTime.now(),
-                temperature: 22,
-                location: 'Jakarta',
-                weather: 'good',
+                temperature: controller.apiRes?.current.temp ?? 0,
+                location: controller.location ?? '',
+                weather: controller.apiRes?.current.weather.first.main,
+                humdity: controller.apiRes?.current.humidity ?? 0,
+                windSpeed: controller.apiRes?.current.windSpeed ?? 0,
+                rainChance: controller.apiRes?.hourly
+                        .firstWhereOrNull(
+                            (element) => element.dt.hour == DateTime.now().hour)
+                        ?.pop ??
+                    0,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(40, 13, 40, 18),
@@ -52,20 +63,25 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
               AspectRatio(
-                aspectRatio: 355 / 95,
+                aspectRatio: width / (height * 0.16),
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: HourlyWeather(
-                      iconUrl: 'http://openweathermap.org/img/wn/10d@2x.png',
-                      time: DateTime.now(),
-                    ),
-                  ),
-                ),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: controller.todayWeather.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: HourlyWeather(
+                          temperature: controller.todayWeather[index].temp,
+                          iconUrl:
+                              'http://openweathermap.org/img/wn/${controller.todayWeather[index].weather.first.icon}@2x.png',
+                          time: controller.todayWeather[index].dt,
+                          current: DateTime.now().hour ==
+                              controller.todayWeather[index].dt.hour,
+                        ),
+                      );
+                    }),
               ),
             ],
           ),

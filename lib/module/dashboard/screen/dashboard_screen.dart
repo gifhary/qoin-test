@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qoin_test/module/dashboard/controller/dashboard_controller.dart';
 import 'package:qoin_test/module/dashboard/widget/dashboard_current_weather.dart';
+import 'package:qoin_test/module/dashboard/widget/hourly_weather.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -55,14 +56,13 @@ class DashboardScreen extends StatelessWidget {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
+                  itemCount: 5,
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.only(right: 10),
-                    child: AspectRatio(
-                      aspectRatio: 66 / 95,
-                      child: Container(
-                        color: Colors.white,
-                      ),
+                    child: HourlyWeather(
+                      iconUrl: 'http://openweathermap.org/img/wn/10d@2x.png',
+                      time: DateTime.now(),
                     ),
                   ),
                 ),

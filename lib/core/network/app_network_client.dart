@@ -35,6 +35,7 @@ class AppNetworkClient {
   }
 
   static String _getErrorMessage(DioError e) {
+    debugPrint('message: ${e.message}');
     switch (e.type) {
       case DioErrorType.cancel:
         return 'Connection cancelled';
@@ -47,9 +48,9 @@ class AppNetworkClient {
       case DioErrorType.sendTimeout:
         return 'Connection timed out';
       case DioErrorType.other:
-        return 'Something Went Wrong, try again later';
+        return 'Something Went Wrong, please check your connection';
       default:
-        return 'Something Went Wrong, try again later';
+        return 'Something Went Wrong, please check your connection';
     }
   }
 }

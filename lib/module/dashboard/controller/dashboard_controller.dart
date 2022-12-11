@@ -142,7 +142,7 @@ class DashboardController extends GetxController with DashboardRepo {
       _prefs.setString(DashboardConstant.forecastKey, apiRes!.toJson());
       _prefs.setString(DashboardConstant.lastLocationKey, location!);
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('error: $e');
       AppSnackbar.error('Error', e.toString());
     }
     loading = false;

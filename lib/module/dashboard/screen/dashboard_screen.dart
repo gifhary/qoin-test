@@ -45,9 +45,11 @@ class DashboardScreen extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.w800),
                         ),
                         InkWell(
-                          onTap: () => Get.toNamed(
-                              RouteConstant.tommorowForecast,
-                              arguments: controller.apiRes),
+                          onTap: controller.apiRes == null
+                              ? null
+                              : () => Get.toNamed(
+                                  RouteConstant.tommorowForecast,
+                                  arguments: controller.apiRes),
                           child: Row(
                             children: [
                               Text(

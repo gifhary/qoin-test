@@ -12,23 +12,60 @@ class DashboardScreen extends StatelessWidget {
       init: DashboardController(),
       builder: (DashboardController controller) {
         return Scaffold(
-          body: Stack(
+          backgroundColor: Colors.black,
+          body: Column(
             children: [
-              Column(
-                children: [
-                  const Flexible(child: SizedBox(height: double.infinity)),
-                  AspectRatio(
-                    aspectRatio: 355 / 200,
-                    child: Container(
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
               DashboardCurrentWeather(
+                iconUrl: 'http://openweathermap.org/img/wn/10d@2x.png',
                 lastUpdate: DateTime.now(),
+                temperature: 22,
                 location: 'Jakarta',
                 weather: 'good',
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(40, 13, 40, 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Today',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            '7 days',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white.withOpacity(0.6)),
+                          ),
+                          Icon(Icons.keyboard_arrow_right,
+                              size: 20, color: Colors.white.withOpacity(0.6)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              AspectRatio(
+                aspectRatio: 355 / 95,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: AspectRatio(
+                      aspectRatio: 66 / 95,
+                      child: Container(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:qoin_test/core/assets/app_asset.dart';
 import 'package:qoin_test/module/dashboard/widget/last_update_tag.dart';
 
@@ -7,6 +8,7 @@ class DashboardCurrentWeather extends StatelessWidget {
   final String location;
   final int temperature;
   final String weather;
+  final String iconUrl;
   final DateTime lastUpdate;
   final int rainChance;
   final int humdity;
@@ -19,7 +21,8 @@ class DashboardCurrentWeather extends StatelessWidget {
       required this.lastUpdate,
       this.rainChance = 0,
       this.humdity = 0,
-      this.windSpeed = 0})
+      this.windSpeed = 0,
+      required this.iconUrl})
       : super(key: key);
 
   @override
@@ -36,7 +39,7 @@ class DashboardCurrentWeather extends StatelessWidget {
         ],
       ),
       child: AspectRatio(
-        aspectRatio: 355 / 630,
+        aspectRatio: 355 / 600,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -137,7 +140,107 @@ class DashboardCurrentWeather extends StatelessWidget {
                             ),
                             LastUpdateTag(
                                 date: DateTime.now()
-                                    .subtract(const Duration(minutes: 100)))
+                                    .subtract(const Duration(minutes: 100))),
+                            Image.network(
+                              iconUrl,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.6,
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    size:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                  ),
+                                ),
+                              ),
+                              height: MediaQuery.of(context).size.width * 0.6,
+                              width: MediaQuery.of(context).size.width * 0.6,
+                              fit: BoxFit.contain,
+                            ),
+                            Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Text(
+                                    temperature.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 100,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                                Text(
+                                  '°',
+                                  style: TextStyle(
+                                      fontSize: 50,
+                                      color: Colors.white.withOpacity(0.5)),
+                                ),
+                              ],
+                            ),
+                            Text(weather,
+                                style: const TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.w800)),
+                            Text(
+                              'Today, ${DateFormat('dd MMMM').format(DateTime.now())}',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white.withOpacity(0.5)),
+                            ),
+                            const Spacer(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                crossAxisCount: 3,
+                                childAspectRatio: 2 / 1,
+                                children: [
+                                  Column(
+                                    children: [
+                                      SvgPicture.asset(AppAsset.wind),
+                                      Text('${windSpeed}kmph'),
+                                      Text(
+                                        'Wind',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color:
+                                                Colors.white.withOpacity(0.5)),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      SvgPicture.asset(AppAsset.droplet),
+                                      Text('$humdity%'),
+                                      Text(
+                                        'Humidity',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color:
+                                                Colors.white.withOpacity(0.5)),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      SvgPicture.asset(AppAsset.rainClound),
+                                      Text('$rainChance%'),
+                                      Text(
+                                        'Chance of rain',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color:
+                                                Colors.white.withOpacity(0.5)),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),

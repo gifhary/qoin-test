@@ -8,6 +8,6 @@ class AppRoute {
     GetPage(name: RouteConstant.dashboard, page: () => const DashboardScreen()),
     GetPage(
         name: RouteConstant.tommorowForecast,
-        page: () => const TomorrowForecastScreen()),
+        page: () => TomorrowForecastScreen()),
   ];
 }

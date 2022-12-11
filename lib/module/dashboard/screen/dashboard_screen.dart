@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qoin_test/core/route/route_constant.dart';
 import 'package:qoin_test/module/dashboard/controller/dashboard_controller.dart';
 import 'package:qoin_test/module/dashboard/widget/dashboard_current_weather.dart';
 import 'package:qoin_test/module/dashboard/widget/hourly_weather.dart';
@@ -45,7 +46,8 @@ class DashboardScreen extends StatelessWidget {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => Get.toNamed(RouteConstant.tommorowForecast,
+                          arguments: controller.apiRes),
                       child: Row(
                         children: [
                           Text(
